@@ -1,36 +1,37 @@
-VENV = .venv
-PYTHON_VERSION = 3.11
-PYTHON = $(VENV)/bin/python
-PIP = $(VENV)/bin/pip
+VENVDIR=.venv
+VENV=$(VENVDIR)/bin
+VENV_PYTHON=$(VENV)/python
+VENV_PIP=$(VENV)/pip
+
+venv: $(VENV)/activate
+$(VENV)/activate: pyproject.toml
+	test -d $(VENVDIR) || python -m venv $(VENVDIR)
+	$(VENV_PIP) install -U pip
+	touch $(VENV)/activate
+
+.PHONY: install
+install: venv
+	$(VENV_PIP) install -e .
+
+.PHONY: install-dev
+install-dev: venv
+	$(VENV_PIP) install -e ".[dev]"
 
 .PHONY: check
-check: .venv
+check: install-dev
 	ruff check src/ tests/
 	ruff format --check src/ tests/
 
 .PHONY: clean
-clean: .venv
-	ruff clean
-	rm -rf $(VENV)
+clean: venv
+	rm -rf $(VENV_DIR)
 	rm -rf *.egg-info
 
-venv:
-	python -m venv $(VENV)
-	$(PIP) install -U pip
-
 .PHONY: fix
-fix: .venv
+fix: venv
 	ruff src/ tests/
 	ruff format src/ tests/
 
-.PHONY: install
-install: .venv
-	$(PIP) install -e .
-
-.PHONY: install-dev
-install-dev: .venv
-	$(PIP) install -e ".[dev]"
-
 .PHONY: test
-test: .venv
-	$(PYTHON) -m pytest tests
+test: venv
+	$(VENV_PYTHON) -m pytest tests
