@@ -29,7 +29,7 @@ clean: venv
 
 .PHONY: fix
 fix: venv
-	ruff src/ tests/
+	ruff check --fix src/ tests/
 	ruff format src/ tests/
 
 .PHONY: test
