@@ -9,7 +9,7 @@ allow-direct-references = true
 name = ""
 version = "0.0.0"
 description = ""
-requires-python = "~=3.11"
+requires-python = ">=3.10"
 readme = {file = "README.md", content-type="text/markdown"}
 license = {file = "LICENSE.md"}
 authors = [
@@ -17,11 +17,14 @@ authors = [
 ]
 dependencies = []
 
+# CLI Entry Point
+#[project.scripts]
+
 [project.optional-dependencies]
 dev = [
     "mypy==1.9.0",
     "pytest==8.1.1",
-    "ruff==0.3.2"
+    "ruff==0.3.4"
 ]
 
 [project.urls]
