@@ -11,7 +11,7 @@ $(VENV)/activate: pyproject.toml
 	touch $(VENV)/activate
 
 .PHONY: install-dev
-install-dev:
+install-dev: venv
 	$(VENVPIP) install -e ".[dev]"
 
 .PHONY: clean
