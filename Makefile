@@ -20,7 +20,7 @@ clean:
 
 .PHONY: check
 check:
-	$(VENV)/ruff check src/ tests/
+	$(VENV)/ruff check --select I src/ tests/
 	$(VENV)/ruff format --check src/ tests/
 
 .PHONY: fix
