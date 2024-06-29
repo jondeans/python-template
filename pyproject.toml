@@ -17,15 +17,15 @@ authors = [
 ]
 dependencies = []
 
-# CLI Entry Point
-#[project.scripts]
-
 [project.optional-dependencies]
 dev = [
     "mypy==1.10.0",
     "pytest==8.2.2",
     "ruff==0.4.9"
 ]
+
+# CLI Entry Point
+#[project.scripts]
 
 [project.urls]
 repository = ""
