@@ -1,33 +1,21 @@
-VENVDIR=.venv
-VENV=$(VENVDIR)/bin
-VENVPYTHON=$(VENV)/python
-VENVPIP=$(VENV)/pip
-
-venv: $(VENV)/activate
-$(VENV)/activate: pyproject.toml
-	test -d $(VENVDIR) || python3 -m venv $(VENVDIR)
-	$(VENVPIP) install -U pip
-	$(VENVPIP) install -e .
-	touch $(VENV)/activate
+.PHONY: venv
+env:
+	uv sync
 
 .PHONY: install-dev
-install-dev: venv
-	$(VENVPIP) install -e ".[dev]"
-
-.PHONY: clean
-clean:
-	rm -rf $(VENVDIR)
+install-dev:
+	uv sync --extra dev
 
 .PHONY: check
 check:
-	$(VENV)/ruff check --select I src/ tests/
-	$(VENV)/ruff format --check src/ tests/
+	uv run ruff check --select I src/ tests/
+	uv run ruff format --check src/ tests/
 
 .PHONY: fix
 fix:
-	$(VENV)/ruff check --fix --select I src/ tests/
-	$(VENV)/ruff format src/ tests/
+	uv run ruff check --fix --select I src/ tests/
+	uv run ruff format src/ tests/
 
 .PHONY: test
 test:
-	$(VENVPYTHON) -m pytest tests
+	uv run pytest tests
